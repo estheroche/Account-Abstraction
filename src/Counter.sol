@@ -1,27 +1,35 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-contract Counter {
+import {ERC2771Context} from "lib/openzeppelin-contracts/contracts/metatx/ERC2771Context.sol";
+
+contract Counter is ERC2771Context {
     uint256 public number;
 
     address public lastUser;
+    address private _trustedForwarder;
 
     event updateCount(uint256 newCount);
 
+    constructor(address _t) ERC2771Context(_t) {
+        _trustedForwarder = _t;
+    }
+
     function setNumber(uint256 newNumber) public {
         number = newNumber;
+        lastUser = _msgSender();
     }
 
     function increment() public {
         number++;
         emit updateCount(number);
-        lastUser = msg.sender;
+        lastUser = _msgSender();
     }
 
     function decrement() public {
         number--;
         emit updateCount(number);
-        lastUser = msg.sender;
+        lastUser = _msgSender();
     }
 
     function getNumber() public view returns (uint256) {
