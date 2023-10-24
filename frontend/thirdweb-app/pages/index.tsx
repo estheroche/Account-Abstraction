@@ -31,6 +31,18 @@ const Home: NextPage = () => {
         <div>
           <Web3Button contractAddress={CA} contractAbi={abi} action={(contract) => contract.call("setNumber", [20])}>SetNumber</Web3Button>
         </div>
+        <div>
+          <Web3Button contractAddress={CA} contractAbi={abi} action={(contract) => contract.call("increment")}>Increment</Web3Button>
+        </div>
+        <div>
+          <Web3Button contractAddress={CA} contractAbi={abi} action={(contract) => contract.call("decrement")}>Decrement</Web3Button>
+        </div>
+        <div>
+          <Web3Button contractAddress={CA} contractAbi={abi} action={(contract) => contract.call("getNumber")}>GetNumber</Web3Button>
+        </div>
+        <div>
+          <Web3Button contractAddress={CA} contractAbi={abi} action={(contract) => contract.call("getLastUser")}>GetLastUser</Web3Button>
+        </div>
 
 
       </div>
