@@ -1,67 +1,74 @@
-## Foundry
+# Contract Definition:
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
 
-Foundry consists of:
+```dotnetcli
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
 
-## Documentation
+contract Counter is ERC2771Context {
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
 ```
 
-### Test
+Defines the Counter contract, which inherits from the ERC2771Context contract.
 
-```shell
-$ forge test
+## State Variables:
+
+```dotnetcli
+
+uint256 public number;
+address public lastUser;
+address private _trustedForwarder;
 ```
 
-### Format
+    
+- number: Public variable to store an unsigned integer, representing the current count.
+    
+- lastUser: Public variable to store the address of the last user who interacted with the contract.
+- _trustedForwarder: Private variable to store the trusted forwarder address.
+  
+## Event
 
-```shell
-$ forge fmt
+```dotnetcli
+event updateCount(uint256 newCount);
+
+```
+Declares an event named updateCount that is emitted when the number state variable is updated. This is useful for tracking changes to the count.
+
+## Constructor
+
+```dotnetcli
+
+constructor(address _t) ERC2771Context(_t) {
+    _trustedForwarder = _t;
+}
 ```
 
-### Gas Snapshots
+Constructor that initializes the contract with the trusted forwarder address passed as an argument. It calls the constructor of the parent ERC2771Context contract with the same argument.
 
-```shell
-$ forge snapshot
-```
+## Functions
 
-### Anvil
+- `setNumber(uint256 newNumber)`: Sets the number state variable to the specified value and updates the lastUser variable.
 
-```shell
-$ anvil
-```
+- `increment()`: Increments the number by 1, emits an updateCount event, and updates the lastUser.
+  
+- `decrement()`: Decrements the number by 1, emits an updateCount event, and updates the lastUser.
 
-### Deploy
+- `getNumber()`: Returns the current value of the number variable.
+  
+- `getLastUser()`: Returns the address of the last user who interacted with the contract.
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
 
-### Cast
+## Conclusion
 
-```shell
-$ cast <subcommand>
-```
+This contract provides basic functionality for counting, allowing users to increment, decrement, and retrieve the current count. The use of ERC2771Context suggests that the contract supports meta transactions, enabling users to interact with the contract without directly paying gas fees on the Ethereum network.
 
-### Help
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
-verified contract address : 0x85D0E73782Aa6775e1e3D950Ddc99C35A45974d2
+
+
+## Authors
+[@metacraftersio]()
+
+[Oche Esther](https://twitter.com/Estheroche1)
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details.
